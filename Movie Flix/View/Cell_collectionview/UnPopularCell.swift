@@ -30,7 +30,7 @@ class UnPopularCell: UICollectionViewCell {
     private func setupUI(){
         backgroundViewOfCell.translatesAutoresizingMaskIntoConstraints = false
         backgroundViewOfCell.applyCornerRadius(5.0)
-        backgroundViewOfCell.backgroundColor = .systemGray.withAlphaComponent(0.2)
+        backgroundViewOfCell.backgroundColor = traitCollection.userInterfaceStyle == .dark ? .black : .systemGray.withAlphaComponent(0.2)
         contentView.addSubview(backgroundViewOfCell)
         
    
@@ -108,5 +108,15 @@ class UnPopularCell: UICollectionViewCell {
     @objc func deleteBtnPressed(sender : UIButton)
     {
         deleteThisCell?(self.cellID)
+    }
+}
+extension UnPopularCell {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        // Check if the interface style has changed
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            backgroundViewOfCell.backgroundColor = traitCollection.userInterfaceStyle == .dark ? .black : .systemGray.withAlphaComponent(0.2)
+        }
     }
 }

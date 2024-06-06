@@ -59,7 +59,7 @@ class ViewController: BaseVC {
         searchBar.searchBarStyle = .minimal
         navigationItem.titleView = searchBar
          */
-     
+        self.view.backgroundColor = traitCollection.userInterfaceStyle == .dark ? .darkGray : .white
         
         let layout = UICollectionViewFlowLayout()
         // Set desired cell size and other layout options
@@ -71,7 +71,7 @@ class ViewController: BaseVC {
         collectionview.translatesAutoresizingMaskIntoConstraints = false
         collectionview.dataSource = self
         collectionview.delegate = self
-        collectionview.backgroundColor = UIColor.white
+        collectionview.backgroundColor = traitCollection.userInterfaceStyle == .dark ? .darkGray : .white
         collectionview.register(PopularCell.self, forCellWithReuseIdentifier: Constants.Cell.PopularCell)
         collectionview.register(UnPopularCell.self, forCellWithReuseIdentifier: Constants.Cell.UnPopularCell)
   
@@ -165,12 +165,23 @@ extension ViewController : UICollectionViewDataSource, UICollectionViewDelegateF
 
 // MARK: - search bar delegates
 extension ViewController : UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-          arr_filtered_movies = arr_movies.filter { data in
-
-              return data.title.lowercased().contains(searchText.lowercased())
-          }
-
-          collectionview.reloadData()
-      }
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//          arr_filtered_movies = arr_movies.filter { data in
+//
+//              return data.title.lowercased().contains(searchText.lowercased())
+//          }
+//
+//          collectionview.reloadData()
+//      }
+   
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        // Check if the interface style has changed
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            self.view.backgroundColor = traitCollection.userInterfaceStyle == .dark ? .darkGray : .white
+            collectionview.backgroundColor = traitCollection.userInterfaceStyle == .dark ? .darkGray : .white
+        }
+    }
+   
 }

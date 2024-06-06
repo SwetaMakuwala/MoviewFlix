@@ -90,3 +90,13 @@ class PopularCell: UICollectionViewCell {
 }
 
 
+extension PopularCell {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        // Check if the interface style has changed
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            backgroundViewOfCell.backgroundColor = traitCollection.userInterfaceStyle == .dark ? .black : .systemGray.withAlphaComponent(0.2)
+        }
+    }
+}
