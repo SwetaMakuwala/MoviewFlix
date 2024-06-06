@@ -13,11 +13,12 @@ struct ViewModel
         let httpUtility = HttpUtility()
 
         guard  let requestUrl = URL(string:ApiEndpoints.urlMovie) else {return }
-
-
+        
         httpUtility.getApiData(requestUrl: requestUrl, resultType: Movies.self) {
-            (response) in
-            _ = completion(response)
+            (response : Movies?) in
+            if let movies = response{
+                _ = completion(response)
+            }
       
         } errorCompletion: { error in
             _ = errorCompletion(error)
